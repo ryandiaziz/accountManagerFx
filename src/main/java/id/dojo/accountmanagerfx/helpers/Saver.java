@@ -18,7 +18,7 @@ public class Saver {
             for (AccountDto account : accounts){
                 objectOutputStream.writeObject(account);
             }
-
+//            objectOutputStream.writeObject(account);
             String base64 = Base64.getEncoder().encodeToString(byteOut.toByteArray());
 
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);

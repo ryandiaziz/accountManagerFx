@@ -23,11 +23,35 @@ public class Account {
         return account_name;
     }
 
+    public String getAccount_name() {
+        return account_name.get();
+    }
+
+    public void setAccount_name(String account_name){
+        this.account_name.set(account_name);
+    }
+
     public StringProperty getAccountUsernameProperty(){
         return account_username;
     }
 
+    public String getAccount_username() {
+        return account_username.get();
+    }
+
+    public void setAccount_username(String account_username){
+        this.account_username.set(account_username);
+    }
+
     public StringProperty getAccountPasswordProperty(){
         return account_password;
+    }
+
+    public String getAccount_password() {
+        return account_password.get();
+    }
+
+    public void setAccount_password(String account_password){
+        this.account_password.set(account_password);
     }
 }

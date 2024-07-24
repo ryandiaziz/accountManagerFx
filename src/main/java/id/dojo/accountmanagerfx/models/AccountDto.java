@@ -25,6 +25,10 @@ public class AccountDto implements Serializable {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }

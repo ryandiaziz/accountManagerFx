@@ -3,12 +3,15 @@ package id.dojo.accountmanagerfx;
 import com.sun.tools.javac.Main;
 import id.dojo.accountmanagerfx.helpers.Saver;
 import id.dojo.accountmanagerfx.models.Account;
+import id.dojo.accountmanagerfx.models.AccountDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.List;
@@ -24,21 +27,125 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Account, String> tablePassword;
 
+    @FXML
+    private TextField accountNameField;
+    @FXML
+    private TextField accountUsernameField;
+    @FXML
+    private TextField accountPasswordField;
+
     private MainApp mainApp;
 
     private ObservableList<Account> accountData = FXCollections.observableArrayList();
+    private List<AccountDto> accountDtoList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableUsername.setCellValueFactory(cellData -> cellData.getValue().getAccountNameProperty());
+        tableUsername.setCellValueFactory(cellData -> cellData.getValue().getAccountUsernameProperty());
         tableName.setCellValueFactory(cellData -> cellData.getValue().getAccountNameProperty());
-        tablePassword.setCellValueFactory(cellData -> cellData.getValue().getAccountPasswordProperty());
+//        tablePassword.setCellValueFactory(cellData -> cellData.getValue().getAccountPasswordProperty());
     }
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        this.accountDtoList = mainApp.getAccountDtoList();
 
         // Add observable list data to the table
         tableViewAccount.setItems(mainApp.getAccountData());
+    }
+
+    @FXML
+    public void handleCreateAccount(){
+        if (isInputValid()){
+            AccountDto accountDto = new AccountDto(accountNameField.getText(), accountUsernameField.getText(), accountPasswordField.getText());
+            accountDtoList.add(accountDto);
+
+            Saver.saveObject(accountDtoList);
+            mainApp.getAccountData().add(new Account(accountNameField.getText(), accountUsernameField.getText(), accountPasswordField.getText()));
+            accountNameField.setText("");
+            accountUsernameField.setText("");
+            accountPasswordField.setText("");
+        }
+    }
+
+    @FXML
+    private void handleDeletePerson() {
+        int selectedIndex = tableViewAccount.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            tableViewAccount.getItems().remove(selectedIndex);
+            accountDtoList.remove(accountDtoList.get(selectedIndex));
+            Saver.saveObject(accountDtoList);
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Person Selected");
+            alert.setContentText("Please select a person in the table.");
+
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleEditAccount() {
+        Account selectedAccount = tableViewAccount.getSelectionModel().getSelectedItem();
+        int selectedIndex = tableViewAccount.getSelectionModel().getSelectedIndex();
+        if (selectedAccount != null) {
+            boolean okClicked = mainApp.showEditAccount(selectedAccount);
+
+            if (okClicked) {
+                AccountDto accountDto = accountDtoList.get(selectedIndex);
+                accountDto.setName(selectedAccount.getAccount_name());
+                accountDto.setUserName(selectedAccount.getAccount_username());
+                accountDto.setPassword(selectedAccount.getAccount_password());
+                Saver.saveObject(accountDtoList);
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Person Selected");
+            alert.setContentText("Please select a person in the table.");
+
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleShowDetail(){
+        Account selectedAccount = tableViewAccount.getSelectionModel().getSelectedItem();
+        mainApp.showDetailAccount(selectedAccount);
+    }
+
+    private boolean isInputValid() {
+        String errorMessage = "";
+
+        if (accountNameField.getText() == null || accountNameField.getText().length() == 0) {
+            errorMessage += "No valid account name!\n";
+        }
+        if (accountUsernameField.getText() == null || accountUsernameField.getText().length() == 0) {
+            errorMessage += "No valid username!\n";
+        }
+        if (accountPasswordField.getText() == null || accountPasswordField.getText().length() == 0) {
+            errorMessage += "No valid password!\n";
+        }
+
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Show the error message.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.initOwner(dialogStage);
+            alert.setTitle("Invalid Fields");
+            alert.setHeaderText("Please correct invalid fields");
+            alert.setContentText(errorMessage);
+
+            alert.showAndWait();
+
+            return false;
+        }
     }
 }

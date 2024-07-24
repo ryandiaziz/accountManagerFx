@@ -5,30 +5,36 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="id.dojo.accountmanagerfx.HomeController">
    <children>
-      <SplitPane dividerPositions="0.44611528822055135" layoutX="132.0" layoutY="131.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.449874686716792" layoutX="132.0" layoutY="131.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="341.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="32.0" text="Menu Utama" textAlignment="RIGHT" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="32.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Button contentDisplay="CENTER" layoutX="78.0" layoutY="102.0" mnemonicParsing="false" prefWidth="200.0" text="Tambah Akun" />
+                  <Button contentDisplay="CENTER" layoutX="78.0" layoutY="198.0" mnemonicParsing="false" onAction="#handleCreateAccount" prefWidth="200.0" text="Tambah Akun" />
+                  <TextField fx:id="accountNameField" layoutX="78.0" layoutY="87.0" prefWidth="200.0" promptText="account name" />
+                  <TextField fx:id="accountUsernameField" layoutX="78.0" layoutY="123.0" prefWidth="200.0" promptText="account username" />
+                  <TextField fx:id="accountPasswordField" layoutX="80.0" layoutY="159.0" prefHeight="24.0" prefWidth="200.0" promptText="account password" />
+                  <Button layoutX="78.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="24.0" prefWidth="200.0" text="Hapus Akun" />
+                  <Button layoutX="78.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleEditAccount" prefHeight="24.0" prefWidth="200.0" text="Edit Akun" />
+                  <Button layoutX="78.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleShowDetail" prefHeight="24.0" prefWidth="200.0" text="Detail Akun" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="534.0">
                <children>
-                  <TableView fx:id="tableViewAccount" layoutX="64.0" layoutY="70.0" prefHeight="598.0" prefWidth="439.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tableViewAccount" layoutX="-80.0" layoutY="70.0" prefHeight="598.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="tableName" prefWidth="147.0" text="Nama" />
-                      <TableColumn fx:id="tableUsername" prefWidth="145.0" text="Username" />
-                        <TableColumn fx:id="tablePassword" prefWidth="154.0" text="Password" />
+                      <TableColumn fx:id="tableName" prefWidth="232.0" text="Nama" />
+                      <TableColumn fx:id="tableUsername" prefWidth="203.0" text="Username" />
                     </columns>
                   </TableView>
                </children>
