@@ -6,6 +6,8 @@ import java.util.List;
 import id.dojo.accountmanagerfx.helpers.Saver;
 import id.dojo.accountmanagerfx.models.Account;
 import id.dojo.accountmanagerfx.models.AccountDto;
+import id.dojo.accountmanagerfx.models.PassHistory;
+import id.dojo.accountmanagerfx.models.PassHistoryDto;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,8 +22,9 @@ public class MainApp extends Application{
     private Stage primaryStage;
     private BorderPane rootLayout;
     private List<AccountDto> accountDtoList;
-
+    private List<PassHistoryDto> passHistoryDtoList;
     private ObservableList<Account> accountData = FXCollections.observableArrayList();
+    private ObservableList<PassHistory> historyData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -35,14 +38,22 @@ public class MainApp extends Application{
 
     public MainApp(){
         this.accountDtoList = Saver.retrieveObject();
+        this.passHistoryDtoList = Saver.retrieveHistory();
         for (AccountDto accountDto : accountDtoList){
             accountData.add(new Account(accountDto.getName(), accountDto.getUserName(), accountDto.getPassword()));
+        }
+        for (PassHistoryDto passHistoryDto : passHistoryDtoList){
+            historyData.add(new PassHistory(passHistoryDto.getChangeAt(), passHistoryDto.getAccountName(), passHistoryDto.getOldPass(), passHistoryDto.getNewPass()));
         }
     }
 
     // SETTER & GETTER
     public ObservableList<Account> getAccountData() {
         return accountData;
+    }
+
+    public ObservableList<PassHistory> getHistoryData() {
+        return historyData;
     }
 
     public Stage getPrimaryStage() {
@@ -52,6 +63,11 @@ public class MainApp extends Application{
     public List<AccountDto> getAccountDtoList() {
         return accountDtoList;
     }
+
+    public List<PassHistoryDto> getPassHistoryDtoList() {
+        return passHistoryDtoList;
+    }
+
     // SETTER & GETTER
 
     public void initRootLayout() {
@@ -145,6 +161,36 @@ public class MainApp extends Application{
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void showHistory() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/history-view.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage historyStage = new Stage();
+            historyStage.setTitle("Riwayat Perubahan Password");
+            historyStage.initModality(Modality.WINDOW_MODAL);
+            historyStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            historyStage.setScene(scene);
+
+            // Set the person into the controller.
+            HistoryController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setHistoryStage(historyStage);
+
+            // Show the dialog and wait until the user closes it
+            historyStage.showAndWait();
+
+//            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+//            return false;
         }
     }
 

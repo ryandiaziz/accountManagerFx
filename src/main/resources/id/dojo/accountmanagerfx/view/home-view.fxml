@@ -27,6 +27,7 @@
                   <Button layoutX="78.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="24.0" prefWidth="200.0" text="Hapus Akun" />
                   <Button layoutX="78.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleEditAccount" prefHeight="24.0" prefWidth="200.0" text="Edit Akun" />
                   <Button layoutX="78.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleShowDetail" prefHeight="24.0" prefWidth="200.0" text="Detail Akun" />
+                  <Button layoutX="80.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleShowHistory" prefHeight="24.0" prefWidth="200.0" text="Riwayat Perubahan Pass" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="534.0">

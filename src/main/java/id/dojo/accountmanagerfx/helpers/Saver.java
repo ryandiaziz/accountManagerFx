@@ -1,6 +1,6 @@
 package id.dojo.accountmanagerfx.helpers;
-import id.dojo.accountmanagerfx.models.Account;
 import id.dojo.accountmanagerfx.models.AccountDto;
+import id.dojo.accountmanagerfx.models.PassHistoryDto;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,7 +8,8 @@ import java.util.Base64;
 import java.util.List;
 
 public class Saver {
-    public static String fileName = "/home/ryan/Projects/accountManagerFx/src/main/resources/id/dojo/accountmanagerfx/view/account.txt";
+    private static final String fileName = "/home/ryan/Projects/accountManagerFx/src/main/resources/id/dojo/accountmanagerfx/view/account.txt";
+    private static final String fileHistory = "/home/ryan/Projects/accountManagerFx/src/main/resources/id/dojo/accountmanagerfx/view/pass_history.txt";
 
     public static void saveObject(List<AccountDto> accounts){
         try {
@@ -18,7 +19,6 @@ public class Saver {
             for (AccountDto account : accounts){
                 objectOutputStream.writeObject(account);
             }
-//            objectOutputStream.writeObject(account);
             String base64 = Base64.getEncoder().encodeToString(byteOut.toByteArray());
 
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);
@@ -64,59 +64,59 @@ public class Saver {
         return accounts;
     }
 
-//    public static void saveHistory(List<PassHistory> passHistories){
-//        try {
-//            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOut);
-//
-//            for (PassHistory passHistory : passHistories){
-//                objectOutputStream.writeObject(passHistory);
-//            }
-//
-//            String base64 = Base64.getEncoder().encodeToString(byteOut.toByteArray());
-//
-//            FileOutputStream fileOutputStream = new FileOutputStream(fileHistory);
-//            fileOutputStream.write(base64.getBytes());
-//
-//            objectOutputStream.flush();
-//            objectOutputStream.close();
-//            fileOutputStream.close();
-//        }catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public static List<PassHistory> retrieveHistory(){
-//        File file = new File(fileHistory);
-//        List<PassHistory> passHistories = new ArrayList<>();
-//
-//        if(file.exists() && file.length() > 0){
-//            try {
-//                FileInputStream fileIn = new FileInputStream(fileHistory);
-//
-//                byte[] base64Bytes = new byte[fileIn.available()];
-//                fileIn.read(base64Bytes);
-//
-//                byte[] objectBytes = Base64.getDecoder().decode(new String(base64Bytes));
-//                ByteArrayInputStream byteIn = new ByteArrayInputStream(objectBytes);
-//
-//                ObjectInputStream in = new ObjectInputStream(byteIn);
-//
-//                while (true) {
-//                    try {
-//                        PassHistory passHistory = (PassHistory) in.readObject();
-//                        passHistories.add(passHistory);
-//                    } catch (EOFException e) {
-//                        break;
-//                    }
-//                }
-//
-//            } catch (IOException | ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return passHistories;
-//    }
+    public static void saveHistory(List<PassHistoryDto> passHistories){
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOut);
+
+            for (PassHistoryDto passHistory : passHistories){
+                objectOutputStream.writeObject(passHistory);
+            }
+
+            String base64 = Base64.getEncoder().encodeToString(byteOut.toByteArray());
+
+            FileOutputStream fileOutputStream = new FileOutputStream(fileHistory);
+            fileOutputStream.write(base64.getBytes());
+
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<PassHistoryDto> retrieveHistory(){
+        File file = new File(fileHistory);
+        List<PassHistoryDto> passHistories = new ArrayList<>();
+
+        if(file.exists() && file.length() > 0){
+            try {
+                FileInputStream fileIn = new FileInputStream(fileHistory);
+
+                byte[] base64Bytes = new byte[fileIn.available()];
+                fileIn.read(base64Bytes);
+
+                byte[] objectBytes = Base64.getDecoder().decode(new String(base64Bytes));
+                ByteArrayInputStream byteIn = new ByteArrayInputStream(objectBytes);
+
+                ObjectInputStream in = new ObjectInputStream(byteIn);
+
+                while (true) {
+                    try {
+                        PassHistoryDto passHistory = (PassHistoryDto) in.readObject();
+                        passHistories.add(passHistory);
+                    } catch (EOFException e) {
+                        break;
+                    }
+                }
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return passHistories;
+    }
 }
 

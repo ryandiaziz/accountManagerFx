@@ -16,7 +16,6 @@ public class DetailAccountController implements Initializable {
     private Label usernameLabel;
     @FXML
     private Label passwordLabel;
-
     private Stage detailStage;
     private Account account;
     private boolean okClicked = false;

@@ -4,6 +4,8 @@ import com.sun.tools.javac.Main;
 import id.dojo.accountmanagerfx.helpers.Saver;
 import id.dojo.accountmanagerfx.models.Account;
 import id.dojo.accountmanagerfx.models.AccountDto;
+import id.dojo.accountmanagerfx.models.PassHistory;
+import id.dojo.accountmanagerfx.models.PassHistoryDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,18 +28,15 @@ public class HomeController implements Initializable {
     private TableColumn<Account, String> tableUsername;
     @FXML
     private TableColumn<Account, String> tablePassword;
-
     @FXML
     private TextField accountNameField;
     @FXML
     private TextField accountUsernameField;
     @FXML
     private TextField accountPasswordField;
-
     private MainApp mainApp;
-
-    private ObservableList<Account> accountData = FXCollections.observableArrayList();
     private List<AccountDto> accountDtoList;
+    private List<PassHistoryDto> passHistoryDtoList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,6 +48,7 @@ public class HomeController implements Initializable {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         this.accountDtoList = mainApp.getAccountDtoList();
+        this.passHistoryDtoList = mainApp.getPassHistoryDtoList();
 
         // Add observable list data to the table
         tableViewAccount.setItems(mainApp.getAccountData());
@@ -90,6 +90,7 @@ public class HomeController implements Initializable {
     @FXML
     private void handleEditAccount() {
         Account selectedAccount = tableViewAccount.getSelectionModel().getSelectedItem();
+        String currentPass = selectedAccount.getAccount_password();
         int selectedIndex = tableViewAccount.getSelectionModel().getSelectedIndex();
         if (selectedAccount != null) {
             boolean okClicked = mainApp.showEditAccount(selectedAccount);
@@ -100,6 +101,12 @@ public class HomeController implements Initializable {
                 accountDto.setUserName(selectedAccount.getAccount_username());
                 accountDto.setPassword(selectedAccount.getAccount_password());
                 Saver.saveObject(accountDtoList);
+                if (!currentPass.equalsIgnoreCase(selectedAccount.getAccount_password())){
+                    PassHistoryDto passHistoryDto = new PassHistoryDto(selectedAccount.getAccount_name(), currentPass, selectedAccount.getAccount_password());
+                    passHistoryDtoList.addFirst(passHistoryDto);
+                    Saver.saveHistory(passHistoryDtoList);
+                    mainApp.getHistoryData().addFirst(new PassHistory(passHistoryDto.getChangeAt(), passHistoryDto.getAccountName(), passHistoryDto.getOldPass(), passHistoryDto.getNewPass()));
+                }
             }
 
         } else {
@@ -118,6 +125,11 @@ public class HomeController implements Initializable {
     private void handleShowDetail(){
         Account selectedAccount = tableViewAccount.getSelectionModel().getSelectedItem();
         mainApp.showDetailAccount(selectedAccount);
+    }
+
+    @FXML
+    private void handleShowHistory(){
+        mainApp.showHistory();
     }
 
     private boolean isInputValid() {
