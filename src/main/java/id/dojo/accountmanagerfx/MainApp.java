@@ -1,13 +1,13 @@
 package id.dojo.accountmanagerfx;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import id.dojo.accountmanagerfx.controllers.*;
 import id.dojo.accountmanagerfx.helpers.Saver;
-import id.dojo.accountmanagerfx.models.Account;
-import id.dojo.accountmanagerfx.models.AccountDto;
-import id.dojo.accountmanagerfx.models.PassHistory;
-import id.dojo.accountmanagerfx.models.PassHistoryDto;
+import id.dojo.accountmanagerfx.helpers.SetPath;
+import id.dojo.accountmanagerfx.models.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,10 +33,20 @@ public class MainApp extends Application{
 
         initRootLayout();
 
-        showHome();
+//        showHomePage();
+        showAuthPage();
     }
 
-    public MainApp(){
+    public MainApp() throws IOException {
+        File confFile = new File(System.getProperty("user.home")+"/account_manager/config/config.txt");
+        if (!confFile.exists()){
+            SetPath.configPath();
+        }
+        Config config = Saver.retrieveConfig();
+        System.out.println(config.getAccountFile());
+        Saver.fileName = config.getAccountFile();
+        Saver.fileHistory = config.getHistoryFile();
+
         this.accountDtoList = Saver.retrieveObject();
         this.passHistoryDtoList = Saver.retrieveHistory();
         for (AccountDto accountDto : accountDtoList){
@@ -86,7 +96,25 @@ public class MainApp extends Application{
         }
     }
 
-    public void showHome() {
+    public void showAuthPage() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/auth-view.fxml"));
+            AnchorPane homeView = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(homeView);
+
+            // Give the controller access to the main app.
+            AuthController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHomePage() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();

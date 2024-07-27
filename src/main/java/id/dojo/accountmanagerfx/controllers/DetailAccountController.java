@@ -1,4 +1,4 @@
-package id.dojo.accountmanagerfx;
+package id.dojo.accountmanagerfx.controllers;
 
 import id.dojo.accountmanagerfx.models.Account;
 import javafx.fxml.FXML;

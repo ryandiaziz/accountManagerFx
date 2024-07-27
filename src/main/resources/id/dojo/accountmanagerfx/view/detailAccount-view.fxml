@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="200.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="id.dojo.accountmanagerfx.DetailAccountController">
+<AnchorPane prefHeight="200.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="id.dojo.accountmanagerfx.controllers.DetailAccountController">
    <children>
       <GridPane layoutX="117.0" layoutY="36.0" prefHeight="129.0" prefWidth="566.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="36.0">
         <columnConstraints>

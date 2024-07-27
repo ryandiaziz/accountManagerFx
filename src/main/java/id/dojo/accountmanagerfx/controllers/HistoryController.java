@@ -1,11 +1,8 @@
-package id.dojo.accountmanagerfx;
+package id.dojo.accountmanagerfx.controllers;
 
-import id.dojo.accountmanagerfx.models.Account;
-import id.dojo.accountmanagerfx.models.AccountDto;
+import id.dojo.accountmanagerfx.MainApp;
 import id.dojo.accountmanagerfx.models.PassHistory;
 import id.dojo.accountmanagerfx.models.PassHistoryDto;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;

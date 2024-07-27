@@ -1,13 +1,11 @@
-package id.dojo.accountmanagerfx;
+package id.dojo.accountmanagerfx.controllers;
 
-import com.sun.tools.javac.Main;
+import id.dojo.accountmanagerfx.MainApp;
 import id.dojo.accountmanagerfx.helpers.Saver;
 import id.dojo.accountmanagerfx.models.Account;
 import id.dojo.accountmanagerfx.models.AccountDto;
 import id.dojo.accountmanagerfx.models.PassHistory;
 import id.dojo.accountmanagerfx.models.PassHistoryDto;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -27,8 +25,6 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Account, String> tableUsername;
     @FXML
-    private TableColumn<Account, String> tablePassword;
-    @FXML
     private TextField accountNameField;
     @FXML
     private TextField accountUsernameField;
@@ -42,7 +38,6 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableUsername.setCellValueFactory(cellData -> cellData.getValue().getAccountUsernameProperty());
         tableName.setCellValueFactory(cellData -> cellData.getValue().getAccountNameProperty());
-//        tablePassword.setCellValueFactory(cellData -> cellData.getValue().getAccountPasswordProperty());
     }
 
     public void setMainApp(MainApp mainApp) {

@@ -1,4 +1,4 @@
-package id.dojo.accountmanagerfx;
+package id.dojo.accountmanagerfx.controllers;
 
 import id.dojo.accountmanagerfx.models.Account;
 import javafx.fxml.FXML;
@@ -17,7 +17,6 @@ public class EditAccountController implements Initializable {
     private TextField usernameField;
     @FXML
     private TextField passwordField;
-
     private Stage dialogStage;
     private Account account;
     private boolean okClicked = false;

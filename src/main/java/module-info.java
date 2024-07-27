@@ -6,4 +6,6 @@ module id.dojo.accountmanagerfx {
 
     opens id.dojo.accountmanagerfx to javafx.fxml;
     exports id.dojo.accountmanagerfx;
+    exports id.dojo.accountmanagerfx.controllers;
+    opens id.dojo.accountmanagerfx.controllers to javafx.fxml;
 }
